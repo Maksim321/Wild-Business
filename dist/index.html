@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta content="text/html;charset=utf-8" http-equiv="Content-Type">
+    <meta content="utf-8" http-equiv="encoding">
+  </head>
+  <body>
+    <div class="container-wrap">
+      <div class="container">
+        <div class="block-icons">
+          <ul class="box-icons">
+            <li class="box-icons__item">
+              <label>
+                <input class="box-icons__input" id="trapInpt" type="radio" value=0>
+                <img class="box-icons__img" id="trapIcon" src="./img/trap_icons/trap_passive.png">
+              </label>
+            </li>
+            <li class="box-icons__item">
+              <label>
+                <input class="box-icons__input" id="rakeInpt" type="radio" value=1>
+                <img class="box-icons__img" id="rakeIcon" src="./img/rake_icons/rake_passive.png">
+              </label>
+            </li>       
+          </ul>
+        </div>
+        <div class="block-start block-start_hidden">
+          <a class="block-start__button">START</a>
+        </div>
+        <div class="canvasContainer">
+          <canvas id="gameCanvas" width="960" height="540"></canvas> 
+        </div>
+      </div>
+    </div>
+    <script src="main.js"></script>
+  </body>
+</html>
