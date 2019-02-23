@@ -1,13 +1,12 @@
 import Units from './Units.js';
 
 function Wolf(img, default_pos_num_x, default_pos_num_y, fix_axis_x, fix_axis_y, 
-              sprite_w, sprite_h, scale_w, scale_h, skipFrame, map, speed, hp, target_position){
+              sprite_w, sprite_h, scale_w, scale_h, skipFrame, map, speed, hp){
   Units.apply(this, arguments);
 
   this.speed = speed;
   this.hp = hp;
-  this.distance_moved = 0;
-  this.target_position = target_position;
+  this.distance_moved = 120;
   this.isWolfInTrap = false; 
 }
 
@@ -16,13 +15,6 @@ Wolf.prototype.constructor = Wolf;
 
 Wolf.prototype.getMainPos = function () {
   return Units.prototype.getPos.apply(this, arguments);
-};
-
-Wolf.prototype.getTargetPos = function () {
-  return {
-    x: this.map.positions_num_x[this.target_position] + this.fix_axis_x,
-    y: this.map.positions_num_y[this.default_pos_num_y] + this.fix_axis_y
-  };
 };
 
 Wolf.prototype.getPos = function () {
@@ -53,13 +45,6 @@ Wolf.prototype.hit = function () {
 Wolf.prototype.animate = function(){
   Units.prototype.animate.apply(this, arguments);
   this.move();
-}
-
-Wolf.prototype.isTargetPosition = function (){
-  if(Math.abs(this.getPos().x - this.getTargetPos()) <= Math.abs(this.speed))
-    return true;
-  else
-    return false;
 }
 
 Wolf.prototype.isTrapped = function (trap){

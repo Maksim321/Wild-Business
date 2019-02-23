@@ -26,9 +26,10 @@ Spawner.prototype.getWolf = function (type, pos_num_x, pos_num_y) {
 
 Spawner.prototype.getRandomWolf = function(pos_num_x, pos_num_y) {
   if(this.intervalCount === 0){
-    this.intervalCount = this.interval;
-    if(this.getRandomInt(0, 2))
+    this.intervalCount = this.interval + this.getRandomInt(0, 25);
+    if(this.getRandomInt(0, 2)){
       return this.getWolf(this.getRandomInt(0, 2), pos_num_x, pos_num_y);
+    }
   }
   this.intervalCount--;
   return null;

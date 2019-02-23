@@ -60,7 +60,7 @@ Line.prototype.update = function(){
   this.update_wolf();
 
   if(this.wolfs.length < 10)
-    this.spawnWolf(this.spawner.getRandomWolf(5, this.index));
+    this.spawnWolf(this.spawner.getRandomWolf(6, this.index));
 }
 
 Line.prototype.setTargetPosition = function (cell) {
