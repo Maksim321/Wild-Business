@@ -6,7 +6,6 @@ let lib;
 let game;
 let startPanel, startButton;
 let scenes = {};
-let screen = {};
 let current_scene = 'lib';
 
 window.onload = function() {

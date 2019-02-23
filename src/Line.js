@@ -3,17 +3,17 @@ import Units from './units/Units.js';
 import Wolf from './units/Wolf.js';
 import Trap from './units/Trap.js';
 import Controls from './Controls.js';
+import Spawner from './Spawner.js';
 
-function Line(screen, index, pig, house, controls, map){
+function Line(screen, index, pig, house, controls, map, spawner){
   Scene.apply(this, arguments);
 
   this.controls = controls;
+  this.spawner = new Spawner(screen, map, 160);
   this.map = map;
   this.index = index;
 
-  this.wolfs = [
-  	new Wolf(this.imgs['wolf'], 5, index, -75, -80, 150, 180, 130, 150, 1, this.map, -0.6, 3)
-  ];
+  this.wolfs = [];
   this.traps = [];
   this.pig = pig;
   this.house = house; 
@@ -47,11 +47,20 @@ Line.prototype.getWolfs = function(){
   return this.wolfs;
 }
 
+Line.prototype.spawnWolf = function(wolf){
+  if(wolf !== null){
+    this.wolfs.push(wolf);
+  }
+}
+
 Line.prototype.update = function(){
   this.update_houses();
   this.update_traps();
   this.update_pigs();
   this.update_wolf();
+
+  if(this.wolfs.length < 10)
+    this.spawnWolf(this.spawner.getRandomWolf(5, this.index));
 }
 
 Line.prototype.setTargetPosition = function (cell) {
