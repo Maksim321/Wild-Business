@@ -1,14 +1,13 @@
 import Scene from './Scene.js';
 import Units from './units/Units.js';
-import Wolf from './units/Wolf.js';
 import Trap from './units/Trap.js';
-import Controls from './Controls.js';
 import Spawner from './Spawner.js';
 
-function Line(screen, index, pig, house, controls, map, spawner){
+function Line(screen, index, pig, house, controls, map, score){
   Scene.apply(this, arguments);
 
   this.controls = controls;
+  this.score = score;
   this.spawner = new Spawner(screen, map, 160);
   this.map = map;
   this.index = index;
@@ -128,7 +127,7 @@ Line.prototype.hitWolf = function (x, y) {
     if(this.wolfs[i].isHit(x, y)){
       this.wolfs[i].hit();
       if(!this.wolfs[i].hp)
-        this.wolfs.splice(i, 1);
+        this.killWolf(i);
       return;
     }
   }
@@ -148,7 +147,7 @@ Line.prototype.setTrap = function (type, pos_num_x, pos_num_y) {
 }
 
 Line.prototype.trapKillWolf = function (trap) {
-  this.wolfs.splice(this.wolfs.indexOf(trap.wolf), 1);
+  this.killWolf(this.wolfs.indexOf(trap.wolf));
   this.traps.splice(this.traps.indexOf(trap), 1);
 }
 
@@ -170,17 +169,21 @@ Line.prototype.pigTrapped = function () {
 
 Line.prototype.wolfKillPig = function (wolf) {
   this.pig.killPig();
-  this.wolfs.splice(this.wolfs.indexOf(wolf), 1);   
+  this.killWolf(this.wolfs.indexOf(wolf));   
 }
 
 Line.prototype.isWolfTrapped = function (wolf) {
   if(!wolf.isWolfInTrap){
-	for (let i = 0; i < this.traps.length; i++)
-	  if(wolf.isTrapped(this.traps[i])){
-	    return i; 
-	}
+  	for (let i = 0; i < this.traps.length; i++)
+  	  if(wolf.isTrapped(this.traps[i]))
+  	    return i; 
   } 
   return -1;
+}
+
+Line.prototype.killWolf = function (index) {
+  this.score.addScore(1);
+  this.wolfs.splice(index, 1);
 }
 
 Line.prototype.isPlaceEmpty = function(pos_num_x){

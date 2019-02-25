@@ -6,10 +6,12 @@ import House from './units/House.js';
 import Trap from './units/Trap.js';
 import Controls from './Controls.js';
 import Line from './Line.js';
+import Score from './Score.js';
 
 function Game(screen){
   Scene.apply(this, arguments);
 
+  this.score = new Score();
   this.controls = new Controls();
   this.map = new Map();
   this.lines = [
@@ -17,19 +19,19 @@ function Game(screen){
       screen, 0, 
       new Pig(this.imgs['pigRight'], 0, 0, -50, -55, 150, 175, 105, 120, 0, this.map, 2, 1, 0, this.imgs['pigLeft']), 
       new House(this.imgs['houses'], 0, 0, -80, -85, 250, 250, 155, 155, 0, this.map, 1, 2), 
-      this.controls, this.map
+      this.controls, this.map, this.score
     ),
     new Line(
       screen, 1, 
       new Pig(this.imgs['pigTwoRight'], 0, 1, -50, -55, 150, 175, 105, 120, 0, this.map, 1.5, 1, 0, this.imgs['pigTwoLeft']), 
       new House(this.imgs['houses'], 0, 1, -75, -85, 250, 250, 155, 155, 0, this.map, 1, 1), 
-      this.controls, this.map
+      this.controls, this.map, this.score
     ),
     new Line(
       screen, 2, 
       new Pig(this.imgs['pigTwoRight'], 0, 2, -50, -55, 150, 175, 105, 120, 0, this.map, 1, 1, 0, this.imgs['pigTwoLeft']), 
       new House(this.imgs['houses'], 0, 2, -80, -70, 250, 250, 155, 155, 0, this.map, 1, 0), 
-      this.controls, this.map
+      this.controls, this.map, this.score
     )
   ];
   this.canvas.addEventListener('mousedown', this.onClick.bind(this), false);
@@ -60,6 +62,7 @@ Game.prototype.render = function(){
     this.render_wolfs(line.getWolfs());
     line.update();
   });
+  this.render_score();
   return "game";
 }
 
@@ -98,6 +101,16 @@ Game.prototype.render_sprites = function (obj) {
     obj.getPos().y, 
     obj.scale_w, obj.scale_h
   );    
+}
+
+Game.prototype.render_score = function () {
+  this.ctx.fillStyle = '#0E000E';
+  this.ctx.fillRect(755, 33, 160, 41 );  
+  this.ctx.fillStyle = '#FCEA84';
+  this.ctx.fillRect(760, 38, 150, 31 );
+  this.ctx.fillStyle = '#000104';
+  this.ctx.font="bold 24px Verdana";
+  this.ctx.fillText("KILLS: " + this.score.getScore(), 770, 62);
 }
 
 export default Game;
