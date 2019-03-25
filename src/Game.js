@@ -7,6 +7,7 @@ import Trap from './units/Trap.js';
 import Controls from './Controls.js';
 import Line from './Line.js';
 import Score from './Score.js';
+import Sound from './Sound.js';
 
 function Game(screen){
   Scene.apply(this, arguments);
@@ -19,19 +20,19 @@ function Game(screen){
       screen, 0, 
       new Pig(this.imgs['pigRight'], 0, 0, -50, -55, 150, 175, 105, 120, 0, this.map, 2, 1, 0, this.imgs['pigLeft']), 
       new House(this.imgs['houses'], 0, 0, -80, -85, 250, 250, 155, 155, 0, this.map, 1, 2), 
-      this.controls, this.map, this.score
+      this.controls, this.map, this.score, this.sound
     ),
     new Line(
       screen, 1, 
       new Pig(this.imgs['pigTwoRight'], 0, 1, -50, -55, 150, 175, 105, 120, 0, this.map, 1.5, 1, 0, this.imgs['pigTwoLeft']), 
       new House(this.imgs['houses'], 0, 1, -75, -85, 250, 250, 155, 155, 0, this.map, 1, 1), 
-      this.controls, this.map, this.score
+      this.controls, this.map, this.score, this.sound
     ),
     new Line(
       screen, 2, 
       new Pig(this.imgs['pigTwoRight'], 0, 2, -50, -55, 150, 175, 105, 120, 0, this.map, 1, 1, 0, this.imgs['pigTwoLeft']), 
       new House(this.imgs['houses'], 0, 2, -80, -70, 250, 250, 155, 155, 0, this.map, 1, 0), 
-      this.controls, this.map, this.score
+      this.controls, this.map, this.score, this.sound
     )
   ];
   this.canvas.addEventListener('mousedown', this.onClick.bind(this), false);
@@ -46,8 +47,9 @@ Game.prototype.onClick = function(event){
   let y = event.clientY - rect.top;
   let cell = this.map.find_cell(x, y);
 
-  if(cell && this.controls.isChecked === null)
+  if(cell && this.controls.isChecked === null){
     this.lines[cell.pos_num_y].hitWolf(x, y);
+  }
   else if(cell && this.lines[cell.pos_num_y].isPlaceEmpty(cell.pos_num_x, cell.pos_num_y))
     this.lines[cell.pos_num_y].setTargetPosition(cell);
 }

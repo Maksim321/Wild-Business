@@ -18,7 +18,7 @@ module.exports = {
         ]
       },
       {
-        test: /\.(png|svg|jpg|gif)$/,
+        test: /\.(png|svg|jpg|gif|ogg)$/,
         use: [
           'file-loader'
         ]
@@ -30,6 +30,10 @@ module.exports = {
       {
         from: './src/img',
         to: './img'
+      },
+      {
+        from: './src/sound',
+        to: './sound'
       }
     ]),  
     new HtmlWebpackPlugin({

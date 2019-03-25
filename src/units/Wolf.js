@@ -1,4 +1,5 @@
 import Units from './Units.js';
+import Sound from '../Sound.js';
 
 function Wolf(img, default_pos_num_x, default_pos_num_y, fix_axis_x, fix_axis_y, 
               sprite_w, sprite_h, scale_w, scale_h, skipFrame, map, speed, hp){
@@ -7,7 +8,7 @@ function Wolf(img, default_pos_num_x, default_pos_num_y, fix_axis_x, fix_axis_y,
   this.speed = speed;
   this.hp = hp;
   this.distance_moved = 120;
-  this.isWolfInTrap = false; 
+  this.isWolfInTrap = false;
 }
 
 Wolf.prototype = Object.create(Units.prototype);

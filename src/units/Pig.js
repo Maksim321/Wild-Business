@@ -20,7 +20,6 @@ Pig.prototype.constructor = Pig;
 Pig.prototype.move = function () {
 
   if(this.target_position !== 0 && this.isTargetPosition()){
-    console.log("rotate");
     this.img = this.imgRight
     this.target_position = 0;
     this.speed *= -1;

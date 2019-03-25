@@ -2,8 +2,9 @@ import Scene from './Scene.js';
 import Units from './units/Units.js';
 import Trap from './units/Trap.js';
 import Spawner from './Spawner.js';
+import Sound from './Sound.js';
 
-function Line(screen, index, pig, house, controls, map, score){
+function Line(screen, index, pig, house, controls, map, score, sound){
   Scene.apply(this, arguments);
 
   this.controls = controls;
@@ -11,6 +12,7 @@ function Line(screen, index, pig, house, controls, map, score){
   this.spawner = new Spawner(screen, map, 160);
   this.map = map;
   this.index = index;
+  this.sound = sound;
 
   this.wolfs = [];
   this.traps = [];
@@ -65,6 +67,7 @@ Line.prototype.update = function(){
 Line.prototype.setTargetPosition = function (cell) {
   if(cell && this.pig.pigInHouse){
     if(this.pig.hp){
+      this.sound['active_pig'].play();
       this.pig.target_position = cell.pos_num_x;
       this.pig.pigInHouse = false;
       this.pig.trapIndex = this.controls.isChecked;
@@ -113,6 +116,7 @@ Line.prototype.update_pigs = function () {
 Line.prototype.update_smoke = function (pos_num_x) {
   if(!this.smoke){
     this.smoke = new Units(this.imgs['smoke'], pos_num_x, this.index, -80, -80, 221, 208, 160, 160, 2, this.map);
+    this.sound['smoke'].play();
     setTimeout(() => {
       this.setTrap(this.pig.trapIndex, pos_num_x);
       this.smoke = null;      
@@ -126,8 +130,11 @@ Line.prototype.hitWolf = function (x, y) {
   for(let i = 0; i < this.wolfs.length; i++){
     if(this.wolfs[i].isHit(x, y)){
       this.wolfs[i].hit();
-      if(!this.wolfs[i].hp)
+      if(!this.wolfs[i].hp){
         this.killWolf(i);
+      }
+      else
+        this.sound['tap'].play();
       return;
     }
   }
@@ -137,11 +144,11 @@ Line.prototype.setTrap = function (type, pos_num_x, pos_num_y) {
   switch(type){
     case 0:   
       this.traps.push(
-        new Trap(this.imgs['trap'], pos_num_x, this.index, -35, -10, 99, 98, 79, 78, 1, this.map, 3));
+        new Trap(this.imgs['trap'], pos_num_x, this.index, -35, -10, 99, 98, 79, 78, 1, this.map, 3, this.sound['wolf_trap']));
       break;
     case 1:
       this.traps.push(
-        new Trap(this.imgs['Rake'], pos_num_x, this.index, -85, -90, 193, 200, 135, 145, 1, this.map, 3));
+        new Trap(this.imgs['Rake'], pos_num_x, this.index, -85, -90, 193, 200, 135, 145, 1, this.map, 3, this.sound['rake_trap']));
       break;
   }
 }
@@ -155,6 +162,7 @@ Line.prototype.wolfTrapped = function (wolf, trap) {
   wolf.isWolfInTrap = true;
   trap.state = true;
   trap.wolf = wolf; 
+  trap.sound.play();
 }
 
 Line.prototype.pigTrapped = function () {
@@ -169,6 +177,7 @@ Line.prototype.pigTrapped = function () {
 
 Line.prototype.wolfKillPig = function (wolf) {
   this.pig.killPig();
+  this.sound['pig_death'].play();
   this.killWolf(this.wolfs.indexOf(wolf));   
 }
 
@@ -182,6 +191,7 @@ Line.prototype.isWolfTrapped = function (wolf) {
 }
 
 Line.prototype.killWolf = function (index) {
+  this.sound['wolf_death'].play();
   this.score.addScore(1);
   this.wolfs.splice(index, 1);
 }

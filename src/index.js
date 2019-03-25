@@ -1,6 +1,7 @@
 import "./css/style.css";
 import Game from './Game.js';
 import Lib from './Lib.js';
+import GameOver from './GameOver.js';
 
 let lib;
 let game;
@@ -13,12 +14,16 @@ window.onload = function() {
   startPanel = document.getElementsByClassName('block-start');
   screen.canvas = document.getElementById('gameCanvas');
   screen.imgs = {};
+  screen.sound = {};
 
   scenes['lib'] = new Lib(screen);
   scenes['game'] = new Game(screen);
+  scenes['game_over'] = new GameOver(screen);
 
   startButton[0].addEventListener('click', ()=> {
     startPanel[0].classList.add("block-start_hidden");
+    screen.sound['level_1'].play();
+    setTimeout(()=>screen.sound['wave_start'].play(), 1000);
     current_scene = 'game';
     draw();
   }, false);
