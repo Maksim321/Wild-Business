@@ -72,6 +72,22 @@ body{
   cursor: pointer;
 }
 
+.block-git{
+  position: absolute;
+  right: 5px;
+  top: 5px;
+  z-index: 1;
+}
+
+.block-git_link{
+  background-image: url('../img/GitHub-Mark-64px.png');
+  background-repeat: no-repeat;
+  background-size: contain;
+  display: block;
+  width: 32px;
+  height: 32px;
+}
+
 [type=radio] { 
   position: absolute;
   opacity: 0;
