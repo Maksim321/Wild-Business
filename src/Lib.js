@@ -66,8 +66,10 @@ Lib.prototype.render = function () {
 
     this.ctx.drawImage(this.imgs['menu_bg'], 0, 0, this.canvas.width, this.canvas.height);
     this.ctx.fillStyle = '#ffffff';
-    this.ctx.font="22px Georgia";
-    this.ctx.fillText("Loading " + this.loaded + '/' + this.total, 415,345);
+    this.ctx.strokeStyle = 'black';
+    this.ctx.font="bold 25px Verdana";
+    this.ctx.fillText("Loading " + this.loaded + '/' + this.total, 380,345);
+    this.ctx.strokeText("Loading " + this.loaded + '/' + this.total, 380,345);
     return "lib";
   }
 

@@ -6,13 +6,11 @@ import House from './units/House.js';
 import Trap from './units/Trap.js';
 import Controls from './Controls.js';
 import Line from './Line.js';
-import Score from './Score.js';
 import Sound from './Sound.js';
 
 function Game(screen){
   Scene.apply(this, arguments);
 
-  this.score = new Score();
   this.controls = new Controls();
   this.map = new Map();
   this.lines = [
@@ -65,7 +63,11 @@ Game.prototype.render = function(){
     line.update();
   });
   this.render_score();
-  return "game";
+
+  if(this.isGameOver())
+    return "game_over"
+  else
+    return "game";
 }
 
 Game.prototype.render_pig = function(pig){
@@ -113,6 +115,12 @@ Game.prototype.render_score = function () {
   this.ctx.fillStyle = '#000104';
   this.ctx.font="bold 24px Verdana";
   this.ctx.fillText("KILLS: " + this.score.getScore(), 770, 62);
+}
+
+Game.prototype.isGameOver = function(){
+  return this.lines[0].getPig().hp === 0 &&
+          this.lines[1].getPig().hp === 0 &&
+          this.lines[2].getPig().hp === 0
 }
 
 export default Game;
